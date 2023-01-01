@@ -1,46 +1,46 @@
-# two player connect four game with a 6x7 board
+# two player connect four game with a 7x8 board
 
 import sys
 
-board = [[' ']*7 for i in range(6)]
+board = [[' ']*8 for i in range(7)]
 
 def print_board():
-	print(' 1 2 3 4 5 6 7')
+	print(' 1 2 3 4 5 6 7 8')
 	for row in board:
 			print('|' + '|'.join(row) + '|')
-	print('---------------')
+	print('-----------------')
 
 def is_valid_move(col):
-	if col < 1 or col > 7:
+	if col < 1 or col > 8:
 		return False
 	return board[0][col-1] == ' '
 
 def make_move(col, letter):
-	for row in range(5, -1, -1):
+	for row in range(6, -1, -1):
 		if board[row][col-1] == ' ':
 			board[row][col-1] = letter
 			break
 
 def is_winner(letter):
 	# check horizontal spaces
-	for c in range(4):
-		for r in range(6):
-			if board[r][c] == letter and board[r][c+1] == letter and board[r][c+2] == letter and board[r][c+3] == letter:
+	for row in board:
+		for col in range(4):
+			if row[col] == letter and row[col+1] == letter and row[col+2] == letter and row[col+3] == letter:
 				return True
 	# check vertical spaces
-	for c in range(7):
-		for r in range(3):
-			if board[r][c] == letter and board[r+1][c] == letter and board[r+2][c] == letter and board[r+3][c] == letter:
+	for col in range(8):
+		for row in range(3):
+			if board[row][col] == letter and board[row+1][col] == letter and board[row+2][col] == letter and board[row+3][col] == letter:
 				return True
 	# check / diagonal spaces
-	for c in range(4):
-		for r in range(3):
-			if board[r][c] == letter and board[r+1][c+1] == letter and board[r+2][c+2] == letter and board[r+3][c+3] == letter:
+	for row in range(3):
+		for col in range(4):
+			if board[row][col] == letter and board[row+1][col+1] == letter and board[row+2][col+2] == letter and board[row+3][col+3] == letter:
 				return True
 	# check \ diagonal spaces
-	for c in range(4):
-		for r in range(3, 6):
-			if board[r][c] == letter and board[r-1][c+1] == letter and board[r-2][c+2] == letter and board[r-3][c+3] == letter:
+	for row in range(3, 6):
+		for col in range(4):
+			if board[row][col] == letter and board[row-1][col+1] == letter and board[row-2][col+2] == letter and board[row-3][col+3] == letter:
 				return True
 
 def is_board_full():
@@ -55,7 +55,7 @@ def main():
 	turn = 'X'
 	while True:
 		try:
-			col = int(input('Player %s, choose your column (1-7): ' % turn))
+			col = int(input('Player %s, choose your column (1-8): ' % turn))
 		except:
 			print('Invalid move, try again.')
 			continue
