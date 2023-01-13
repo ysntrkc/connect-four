@@ -15,6 +15,24 @@ def is_valid_move(col):
 		return False
 	return board[0][col-1] == ' '
 
+def is_next_move_valid(state, col):
+    if col < 1 or col > 8:
+        return False
+    return state[0][col-1] == ' '
+
+def get_possible_moves(state):
+    moves = []
+    for col in range(1,9):
+        if is_next_move_valid(state, col):
+            moves.append(col)
+    return moves
+
+def make_move_with_state(state, column, letter):
+	for row in range(6, -1, -1):
+		if state[row][column-1] == ' ':
+			state[row][column-1]
+			break
+
 def make_move(col, letter):
 	for row in range(6, -1, -1):
 		if board[row][col-1] == ' ':
