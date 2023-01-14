@@ -1,7 +1,5 @@
-from game import *
 import math
-
-
+import game
 
 def calculate_sequence(sequence, coin, isDiagonal):
     if coin == 'X':
@@ -43,7 +41,6 @@ def utility_score(state, isMaximizer):
 
     utility = 0
 
-    column_scores = [0 for _ in range(8)]
     # Check for vertical score.
     for c in range(8):
         column_array = [state[r][c] for r in range(7)]
@@ -58,7 +55,6 @@ def utility_score(state, isMaximizer):
             sequence = row_array[c:c+4]
             utility += calculate_sequence(sequence, coin, 0)
 
-
     for r in range(4):
         for c in range(5):
             sequence = [state[r+i][c+i] for i in range(4)]
@@ -72,26 +68,24 @@ def utility_score(state, isMaximizer):
     return utility
 
 
-
 def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
-    if depth == max_depth or is_winner('X') or is_winner('O') or is_board_full():
-
-        if is_winner('X'):
+    if depth == max_depth or game.is_winner(state, 'X') or game.is_winner(state, 'O') or game.is_board_full(state):
+        if game.is_winner(state, 'X'):
             return [-1, math.inf]
-        elif is_winner('O'):
+        elif game.is_winner(state, 'O'):
             return [-1, -math.inf]
-        elif is_board_full():
+        elif game.is_board_full(state):
             return [-1, 0]
         else:
             return [-1, utility_score(state, isMaximizer)]
 
     if isMaximizer == True:
         value = -math.inf
-        moves = get_possible_moves(state)
+        moves = game.get_possible_moves(state)
         best_column = moves[0]
         for column in moves:
-            copied_state = state.copy()
-            make_move_with_state(copied_state, column, 'X')
+            copied_state = [row.copy() for row in state]
+            game.make_move(copied_state, column, 'X')
             score = negamax(copied_state, depth+1, max_depth, False, alpha, beta)[1]
             if score > value:
                 value = score
@@ -103,11 +97,11 @@ def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
 
     else:
         value = math.inf
-        moves = get_possible_moves(state)
+        moves = game.get_possible_moves(state)
         best_column = moves[0]
         for column in moves:
-            copied_state = state.copy()
-            make_move_with_state(copied_state, column, 'O')
+            copied_state = [row.copy() for row in state]
+            game.make_move(copied_state, column, 'O')
             score = negamax(copied_state, depth+1,max_depth, True, alpha, beta)[0]
             if score < value:
                 value = score
