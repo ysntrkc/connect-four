@@ -151,7 +151,7 @@ def ai_vs_ai(board, hueristic_num_1, hueristic_num_2):
 					break
 		else:
 			state = [row.copy() for row in board]
-			column, score = ngmx.negamax(state=state, depth=0, max_depth=8, isMaximizer=True, alpha=-math.inf, beta=math.inf, heuristic_num=hueristic_num_2)
+			column, score = ngmx.negamax(state=state, depth=0, max_depth=4, isMaximizer=True, alpha=-math.inf, beta=math.inf, heuristic_num=hueristic_num_2)
 			if game.is_valid_move(board, column):
 				board = game.make_move(board, column, turn)
 
