@@ -8,32 +8,32 @@ def calculate_sequence(sequence, coin, isDiagonal):
         opponent = 'O'
     else:
         opponent = 'X'
-        
+
     utility = 0
-    
+
     if sequence.count(coin) == 4:
         utility += 4 + isDiagonal
-    
+
     elif sequence.count(coin) == 3 and sequence.count(' ') == 1:
         utility += 3 + isDiagonal
-    
+
     elif sequence.count(coin) == 2 and sequence.count(' ') == 2:
         utility += 2 + isDiagonal
-        
+
     elif sequence.count(coin) == 1 and sequence.count(' ') == 3:
         utility += 1 + isDiagonal
-        
+
     if sequence.count(opponent) == 3 and sequence.count(' ') == 1:
         utility -= 27
-        
+
     elif sequence.count(opponent) == 2 and sequence.count(' ') == 2:
         utility -= 4
-    
+
     elif sequence.count(opponent) == 1 and sequence.count(' ') == 3:
         utility -= 1
-        
+
     return utility
-        
+
 
 def utility_score(state, isMaximizer):
     if isMaximizer:
@@ -41,37 +41,41 @@ def utility_score(state, isMaximizer):
     else:
         coin = 'O'
 
-    column_scores = [0 for _ in range(8)]     
+    utility = 0
+
+    column_scores = [0 for _ in range(8)]
     # Check for vertical score.
     for c in range(8):
-        current_column = [str(i) for i in list(state[:, c])]
+        column_array = [state[r][c] for r in range(7)]
         for r in range(4):
-            sequence = current_column[r : r+4]
+            sequence = column_array[r:r+4]
             utility += calculate_sequence(sequence, coin, 0)
-            
+
     # Check for horizontal score.
     for r in range(7):
-        current_row = [str(i) for i in list(state[r, :])]
+        row_array = [state[r][c] for c in range(8)]
         for c in range(5):
-            sequence = current_row[c : c+4]
+            sequence = row_array[c:c+4]
             utility += calculate_sequence(sequence, coin, 0)
-            
-    
+
+
     for r in range(4):
         for c in range(5):
             sequence = [state[r+i][c+i] for i in range(4)]
             utility += calculate_sequence(sequence, coin, 1)
-            
+
     for r in range(4):
         for c in range(5):
             sequence = [state[r+3-i][c+i] for i in range(4)]
             utility += calculate_sequence(sequence, coin, 1)
-            
-    
+
+    return utility
+
+
 
 def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
-    if depth == max_depth or is_winner('X') or is_winner('O') or is_board_full(): 
-        
+    if depth == max_depth or is_winner('X') or is_winner('O') or is_board_full():
+
         if is_winner('X'):
             return [-1, math.inf]
         elif is_winner('O'):
@@ -96,7 +100,7 @@ def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
             if alpha >= beta:
                 break
         return best_column, value
-                
+
     else:
         value = math.inf
         moves = get_possible_moves(state)
@@ -112,5 +116,3 @@ def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
             if alpha >= beta:
                 break
         return best_column, value
-
-    
