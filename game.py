@@ -1,6 +1,8 @@
 # two player connect four game with a 7x8 board
 
 import sys
+import negamax as ngmx
+import math
 
 board = [[' ']*8 for i in range(7)]
 
@@ -30,7 +32,7 @@ def get_possible_moves(state):
 def make_move_with_state(state, column, letter):
 	for row in range(6, -1, -1):
 		if state[row][column-1] == ' ':
-			state[row][column-1]
+			state[row][column-1] = letter
 			break
 
 def make_move(col, letter):
@@ -72,24 +74,42 @@ def main():
 	print_board()
 	turn = 'X'
 	while True:
-		try:
-			col = int(input('Player %s, choose your column (1-8): ' % turn))
-		except:
-			print('Invalid move, try again.')
-			continue
-		if is_valid_move(col):
-			make_move(col, turn)
-			if is_winner(turn):
+		if turn == 'X':
+			try:
+				col = int(input('Player %s, choose your column (1-8): ' % turn))
+			except:
+				print('Invalid move, try again.')
+				continue
+			if is_valid_move(col):
+				make_move(col, turn)
+				if is_winner(turn):
+					print_board()
+					print('Player wins!' % turn)
+					sys.exit()
+				turn = 'O' if turn == 'X' else 'X'
 				print_board()
-				print('Player %s wins!' % turn)
+			else:
+				print('Invalid move, try again.')
+			if is_board_full():
+				print('The game is a tie!')
 				sys.exit()
-			turn = 'O' if turn == 'X' else 'X'
-			print_board()
 		else:
-			print('Invalid move, try again.')
-		if is_board_full():
-			print('The game is a tie!')
-			sys.exit()
+			column, score = ngmx.negamax(state=board, depth=0, max_depth=5, isMaximizer=True, alpha=-math.inf, beta=math.inf)
+			if is_valid_move(board, column):
+				make_move(column, turn)
+
+				if is_winner(turn):
+					print_board()
+					print('AI wins!' % turn)
+					sys.exit()
+
+				turn = 'O' if turn == 'X' else 'X'
+				print_board()
+    
+				if is_board_full():
+					print('The game is a tie!')
+					sys.exit()
+
 
 if __name__ == '__main__':
 	main()

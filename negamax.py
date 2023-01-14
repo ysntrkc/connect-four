@@ -68,10 +68,6 @@ def utility_score(state, isMaximizer):
             utility += calculate_sequence(sequence, coin, 1)
             
     
-            
-
-        
-    
 
 def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
     if depth == max_depth or is_winner('X') or is_winner('O') or is_board_full(): 
@@ -92,7 +88,7 @@ def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
         for column in moves:
             copied_state = state.copy()
             make_move_with_state(copied_state, column, 'X')
-            score = negamax(copied_state, depth+1, False)[1]
+            score = negamax(copied_state, depth+1, max_depth, False, alpha, beta)[1]
             if score > value:
                 value = score
                 best_column = column
@@ -108,7 +104,7 @@ def negamax(state, depth, max_depth, isMaximizer, alpha, beta):
         for column in moves:
             copied_state = state.copy()
             make_move_with_state(copied_state, column, 'O')
-            score = negamax(copied_state, depth+1, True)[0]
+            score = negamax(copied_state, depth+1,max_depth, True, alpha, beta)[0]
             if score < value:
                 value = score
                 best_column = column
