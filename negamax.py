@@ -63,6 +63,36 @@ def calculate_sequence_heuristic_2(sequence, coin, isDiagonal, col):
 
     return utility
 
+def calculate_sequence_heuristic_3(sequence, coin, isDiagonal, col):
+    if coin == 'X':
+        opponent = 'O'
+    else:
+        opponent = 'X'
+
+    utility = 5 - ((((col - 3.5) ** 2)) / 2.45)
+
+    if sequence.count(coin) == 4:
+        utility += 7 + isDiagonal * 2
+
+    elif sequence.count(coin) == 3 and sequence.count(' ') == 1:
+        utility += 5 + isDiagonal * 2
+
+    elif sequence.count(coin) == 2 and sequence.count(' ') == 2:
+        utility += 3 + isDiagonal * 2
+
+    elif sequence.count(coin) == 1 and sequence.count(' ') == 3:
+        utility += 1 + isDiagonal * 2
+
+    if sequence.count(opponent) == 3 and sequence.count(' ') == 1:
+        utility -= 30
+
+    elif sequence.count(opponent) == 2 and sequence.count(' ') == 2:
+        utility -= 7
+
+    elif sequence.count(opponent) == 1 and sequence.count(' ') == 3:
+        utility -= 1
+
+    return utility
 
 def utility_score(state, isMaximizer, heuristic_num):
     if isMaximizer:
@@ -81,6 +111,8 @@ def utility_score(state, isMaximizer, heuristic_num):
                 utility += calculate_sequence_heuristic_1(sequence, coin, 0)
             elif heuristic_num == 2:
                 utility += calculate_sequence_heuristic_2(sequence, coin, 0, c)
+            elif heuristic_num == 3:
+                utility += calculate_sequence_heuristic_3(sequence, coin, 0, c)
 
     # Check for horizontal score.
     for r in range(7):
@@ -91,6 +123,8 @@ def utility_score(state, isMaximizer, heuristic_num):
                 utility += calculate_sequence_heuristic_1(sequence, coin, 0)
             elif heuristic_num == 2:
                 utility += calculate_sequence_heuristic_2(sequence, coin, 0, c)
+            elif heuristic_num == 3:
+                utility += calculate_sequence_heuristic_3(sequence, coin, 0, c)
 
     for r in range(4):
         for c in range(5):
@@ -99,6 +133,8 @@ def utility_score(state, isMaximizer, heuristic_num):
                 utility += calculate_sequence_heuristic_1(sequence, coin, 1)
             elif heuristic_num == 2:
                 utility += calculate_sequence_heuristic_2(sequence, coin, 1, c)
+            elif heuristic_num == 3:
+                utility += calculate_sequence_heuristic_3(sequence, coin, 0, c)
 
     for r in range(4):
         for c in range(5):
@@ -107,6 +143,8 @@ def utility_score(state, isMaximizer, heuristic_num):
                 utility += calculate_sequence_heuristic_1(sequence, coin, 1)
             elif heuristic_num == 2:
                 utility += calculate_sequence_heuristic_2(sequence, coin, 1, c)
+            elif heuristic_num == 3:
+                utility += calculate_sequence_heuristic_3(sequence, coin, 0, c)
 
     return utility
 

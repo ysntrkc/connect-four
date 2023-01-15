@@ -20,7 +20,7 @@ def game_ui(board):
 			break
 		elif game_option == 2:
 			try:
-				heuristic_num = int(input('Choose a heuristic (1 or 2): '))
+				heuristic_num = int(input('Choose a heuristic (1, 2 or 3: '))
 			except:
 				print('Invalid option, try again.')
 				continue
@@ -28,8 +28,8 @@ def game_ui(board):
 			break
 		elif game_option == 3:
 			try:
-				heuristic_num1 = int(input('Choose a heuristic for 1st AI (1 or 2): '))
-				heuristic_num2 = int(input('Choose a heuristic for 2nd AI (1 or 2): '))
+				heuristic_num1 = int(input('Choose a heuristic for 1st AI (1, 2 or 3): '))
+				heuristic_num2 = int(input('Choose a heuristic for 2nd AI (1, 2 or 3): '))
 			except:
 				print('Invalid option, try again.')
 				continue
@@ -113,7 +113,7 @@ def player_vs_ai(board, hueristic_num):
 				break
 		else:
 			state = [row.copy() for row in board]
-			column, score = ngmx.negamax(state=state, depth=0, max_depth=5, isMaximizer=True, alpha=-math.inf, beta=math.inf, heuristic_num=heueristic_num)
+			column, score = ngmx.negamax(state=state, depth=0, max_depth=5, isMaximizer=True, alpha=-math.inf, beta=math.inf, heuristic_num=hueristic_num)
 			if game.is_valid_move(board, column):
 				board = game.make_move(board, column, turn)
 
@@ -168,7 +168,7 @@ def ai_vs_ai(board, hueristic_num_1, hueristic_num_2):
 					break
 
 def main():
-	board = [[' ']*8 for i in range(7)]
+	board = [[' ']*8 for _ in range(7)]
 	game_ui(board)
 
 if __name__ == '__main__':
