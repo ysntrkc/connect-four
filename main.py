@@ -2,7 +2,8 @@ import math
 import game
 import negamax as ngmx
 
-
+# This function prints options for user to select which type of game he/she wants to play
+# AI vs AI, Human vs Human, Human vs AI
 def game_ui(board):
 	print('Welcome to Connect 4!')
 	while True:
@@ -40,7 +41,7 @@ def game_ui(board):
 		else:
 			print('Invalid option, try again.')
 
-
+# This function allows us to play Human vs human option
 def player_vs_player(board):
 	turn = 'X'
 	while True:
@@ -87,6 +88,9 @@ def player_vs_player(board):
 				print('The game is a tie!')
 				break
 
+# This function allows us to play against an AI selected by user.
+# For the AI turn we call negamax function to get a column to play.
+# AI is the maximizer node.
 def player_vs_ai(board, hueristic_num):
 	turn = 'X'
 	while True:
@@ -129,6 +133,9 @@ def player_vs_ai(board, hueristic_num):
 					print('The game is a tie!')
 					break
 
+# This function allows us to compare two AIs
+# Both AIs call negamax function to obtain a column to play.
+# One plays as minimizer and one plays as a maximizer node. 
 def ai_vs_ai(board, hueristic_num_1, hueristic_num_2):
 	turn = 'X'
 	while True:
