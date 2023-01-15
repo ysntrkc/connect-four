@@ -20,7 +20,7 @@ def game_ui(board):
 			break
 		elif game_option == 2:
 			try:
-				heuristic_num = int(input('Choose a heuristic (1, 2 or 3: '))
+				heuristic_num = int(input('Choose a heuristic (1, 2 or 3): '))
 			except:
 				print('Invalid option, try again.')
 				continue
